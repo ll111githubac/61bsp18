@@ -6,4 +6,19 @@ public class Palindrome {
         }
         return wordDeque;
     }
+
+    public boolean isPalindrome(String word) {
+        Deque wordDeque = wordToDeque(word);
+        return isPalindromeHelper(wordDeque);
+    }
+
+    private boolean isPalindromeHelper(Deque wordDeque) {
+        if (wordDeque.size() == 0 || wordDeque.size() == 1) {
+            return true;
+        } else if (wordDeque.removeFirst() != wordDeque.removeLast()){
+            return false;
+        } else {
+            return isPalindromeHelper(wordDeque);
+        }
+    }
 }
