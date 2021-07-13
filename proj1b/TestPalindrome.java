@@ -39,4 +39,12 @@ public class TestPalindrome {
         String s7 = "mgfm";
         assertFalse(palindrome.isPalindrome(s7));
     }
+
+    @Test
+    public void tesGeneralizedPalindrome() {
+        CharacterComparator offByOne = new OffByOne();
+        assertTrue(palindrome.isPalindrome("aba", offByOne));
+        assertTrue((palindrome.isPalindrome("k8l", offByOne)));
+        assertFalse(palindrome.isPalindrome("deg", offByOne));
+    }
 }
