@@ -8,12 +8,10 @@ public class TestOffByN {
     @Test
     public void testEqualChars() {
         CharacterComparator offBy4 = new OffByN(4);
-        assertTrue(offBy4.equalChars('a', 'a'));
-        assertTrue(offBy4.equalChars('d', 'c'));
         assertTrue(offBy4.equalChars('j', 'n'));
+        assertTrue(offBy4.equalChars('^', 'Z'));
+        assertFalse(offBy4.equalChars('a', 'a'));
         assertFalse(offBy4.equalChars('t', 'o'));
-        assertFalse(offBy4.equalChars('t', 'y'));
-        assertFalse(offBy4.equalChars('P', 'p'));
-        assertFalse(offBy4.equalChars('a', 'C'));
+        assertFalse(offBy4.equalChars('D', 'h'));
     }
 }
