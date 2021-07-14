@@ -41,7 +41,7 @@ public class TestPalindrome {
     }
 
     @Test
-    public void tesGeneralizedPalindrome() {
+    public void testGeneralizedPalindrome() {
         CharacterComparator offByOne = new OffByOne();
         assertTrue((palindrome.isPalindrome("k8l", offByOne)));
         assertFalse(palindrome.isPalindrome("aba", offByOne));
