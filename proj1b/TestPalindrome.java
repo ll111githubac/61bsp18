@@ -43,8 +43,8 @@ public class TestPalindrome {
     @Test
     public void tesGeneralizedPalindrome() {
         CharacterComparator offByOne = new OffByOne();
-        assertTrue(palindrome.isPalindrome("aba", offByOne));
         assertTrue((palindrome.isPalindrome("k8l", offByOne)));
+        assertFalse(palindrome.isPalindrome("aba", offByOne));
         assertFalse(palindrome.isPalindrome("deg", offByOne));
     }
 }
