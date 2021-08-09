@@ -8,8 +8,8 @@ public class Percolation {
     private boolean[][] grid;
     private int numOfOpenSites;
 
-    private WeightedQuickUnionUF UFSingleEnded;
-    private WeightedQuickUnionUF UFDoubleEnded;
+    private WeightedQuickUnionUF ufSingleEnded;
+    private WeightedQuickUnionUF ufDoubleEnded;
     private int start;
     private int end;
 
@@ -23,8 +23,8 @@ public class Percolation {
 
         this.N = N;
         grid = new boolean[N][N];
-        UFSingleEnded = new WeightedQuickUnionUF(N * N + 1);
-        UFDoubleEnded = new WeightedQuickUnionUF(N * N + 2);
+        ufSingleEnded = new WeightedQuickUnionUF(N * N + 1);
+        ufDoubleEnded = new WeightedQuickUnionUF(N * N + 2);
         start = N * N;
         end = N * N + 1;
         numOfOpenSites = 0;
@@ -38,10 +38,10 @@ public class Percolation {
     }
 
     private void connectToHelper(int row, int col, int rowOffset, int colOffset) {
-        if (isInBound(row + rowOffset, col + colOffset) &&
-                isOpen(row + rowOffset, col + colOffset)) {
-            UFSingleEnded.union(toOneD(row, col), toOneD(row + rowOffset, col + colOffset));
-            UFDoubleEnded.union(toOneD(row, col), toOneD(row + rowOffset, col + colOffset));
+        if (isInBound(row + rowOffset, col + colOffset)
+                && isOpen(row + rowOffset, col + colOffset)) {
+            ufSingleEnded.union(toOneD(row, col), toOneD(row + rowOffset, col + colOffset));
+            ufDoubleEnded.union(toOneD(row, col), toOneD(row + rowOffset, col + colOffset));
         }
 
     }
@@ -53,12 +53,12 @@ public class Percolation {
         connectToHelper(row, col, 0, -1);
 
         if (row == 0) {
-            UFSingleEnded.union(toOneD(row, col), start);
-            UFDoubleEnded.union(toOneD(row, col), start);
+            ufSingleEnded.union(toOneD(row, col), start);
+            ufDoubleEnded.union(toOneD(row, col), start);
         }
 
         if (row == N - 1) {
-            UFDoubleEnded.union(toOneD(row, col), end);
+            ufDoubleEnded.union(toOneD(row, col), end);
         }
     }
 
@@ -99,7 +99,7 @@ public class Percolation {
      * is the site (row, col) full?
      */
     public boolean isFull(int row, int col) {
-        return isOpen(row, col) && UFSingleEnded.connected(toOneD(row, col), start);
+        return isOpen(row, col) && ufSingleEnded.connected(toOneD(row, col), start);
     }
 
     /**
@@ -113,7 +113,7 @@ public class Percolation {
      * does the system percolate?
      */
     public boolean percolates() {
-        return UFDoubleEnded.connected(start, end);
+        return ufDoubleEnded.connected(start, end);
     }
 
     public static void main(String[] args) {
