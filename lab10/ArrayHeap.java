@@ -167,6 +167,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     public T removeMin() {
         T removeItem = peek();
         swap(1, size);
+        contents[size] = null;
         size -= 1;
         sink(1);
         return removeItem;
@@ -196,6 +197,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 contents[index] = new Node(item, priority);
                 sink(index);
                 swim(index);
+                return;
             }
         }
     }
