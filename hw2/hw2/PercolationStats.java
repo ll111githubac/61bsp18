@@ -25,10 +25,6 @@ public class PercolationStats {
             while (!P.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
-                while (P.isOpen(row, col)) {
-                    row = StdRandom.uniform(N);
-                    col = StdRandom.uniform(N);
-                }
                 P.open(row, col);
             }
             portions[i] = (double) P.numberOfOpenSites() / (N * N);

@@ -1,11 +1,13 @@
 package hw2;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class Percolation {
     private int N;
     private boolean[][] grid;
     private int numOfOpenSites;
+    private boolean isPercolate;
 
     private WeightedQuickUnionUF UF;
     private int start;
@@ -20,6 +22,7 @@ public class Percolation {
 
         this.N = N;
         grid = new boolean[N][N];
+        isPercolate = false;
         UF = new WeightedQuickUnionUF(N * N + 1);
         start = N * N;
         numOfOpenSites = 0;
@@ -102,16 +105,31 @@ public class Percolation {
      * does the system percolate?
      */
     public boolean percolates() {
-        for (int col = 0; col < N; col++) {
-            if (isFull(N - 1, col)) {
-                return true;
+        if (isPercolate) {
+            return true;
+        } else {
+            for (int col = 0; col < N; col++) {
+                if (isFull(N - 1, col)) {
+                    isPercolate = true;
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     public static void main(String[] args) {
-
+        int[] freq = new int[5];
+        for (int i = 0; i < 10000; i++) {
+            Percolation P = new Percolation(2);
+            while (!P.percolates()) {
+                P.open(StdRandom.uniform(2), StdRandom.uniform(2));
+            }
+            freq[P.numberOfOpenSites()] += 1;
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println(freq[i]);
+        }
     }
 
 }
