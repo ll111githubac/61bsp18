@@ -91,7 +91,7 @@ public class Percolation {
      * is the site (row, col) full?
      */
     public boolean isFull(int row, int col) {
-        return UF.connected(toOneD(row, col), start);
+        return isOpen(row, col) && UF.connected(toOneD(row, col), start);
     }
 
     /**
