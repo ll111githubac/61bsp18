@@ -15,6 +15,10 @@ public class Percolation {
      * create N-by-N grid, with all sites initially blocked
      */
     public Percolation(int N) {
+        if (N <= 0) {
+            throw new IllegalArgumentException("N should > 0");
+        }
+
         this.N = N;
         grid = new boolean[N][N];
         UF = new WeightedQuickUnionUF(N * N + 2);
@@ -66,7 +70,7 @@ public class Percolation {
         if (!isInBound(row, col)) {
             String errorMessage = "(" + row + ", " + col + ") out of bound";
             throw new java.lang.IndexOutOfBoundsException(errorMessage);
-        } else {
+        } else if (!grid[row][col]) {
             grid[row][col] = true;
             numOfOpenSites += 1;
             connectToNeighbors(row, col);
@@ -105,5 +109,10 @@ public class Percolation {
     public boolean percolates() {
         return UF.connected(start, end);
     }
+
+    public static void main(String[] args) {
+
+    }
+
 }
 

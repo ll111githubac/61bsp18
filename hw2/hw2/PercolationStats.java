@@ -11,6 +11,12 @@ public class PercolationStats {
      * perform T independent experiments on an N-by-N grid
      */
     public PercolationStats(int N, int T, PercolationFactory pf) {
+        if (N <= 0) {
+            throw new IllegalArgumentException("N should > 0");
+        } else if (T <= 0) {
+            throw new IllegalArgumentException("T should > 0");
+        }
+
         this.T = T;
         portions = new double[T];
 
@@ -19,13 +25,13 @@ public class PercolationStats {
             while (!P.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
-                while (!P.isOpen(row, col)) {
+                while (P.isOpen(row, col)) {
                     row = StdRandom.uniform(N);
                     col = StdRandom.uniform(N);
                 }
                 P.open(row, col);
             }
-            portions[i] = 1 - P.numberOfOpenSites() / N * N;
+            portions[i] = 1 - ((double) P.numberOfOpenSites() / (N * N));
         }
 
     }
@@ -58,5 +64,4 @@ public class PercolationStats {
     public double confidenceHigh() {
         return mean() + 1.96 * stddev() / Math.sqrt(T);
     }
-
 }
