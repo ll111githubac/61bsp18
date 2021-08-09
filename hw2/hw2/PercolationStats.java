@@ -31,7 +31,7 @@ public class PercolationStats {
                 }
                 P.open(row, col);
             }
-            portions[i] = 1 - ((double) P.numberOfOpenSites() / (N * N));
+            portions[i] = (double) P.numberOfOpenSites() / (N * N);
         }
 
     }
