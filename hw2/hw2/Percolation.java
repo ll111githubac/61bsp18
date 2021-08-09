@@ -9,7 +9,6 @@ public class Percolation {
 
     private WeightedQuickUnionUF UF;
     private int start;
-    private int end;
 
     /**
      * create N-by-N grid, with all sites initially blocked
@@ -21,9 +20,8 @@ public class Percolation {
 
         this.N = N;
         grid = new boolean[N][N];
-        UF = new WeightedQuickUnionUF(N * N + 2);
+        UF = new WeightedQuickUnionUF(N * N + 1);
         start = N * N;
-        end = N * N + 1;
         numOfOpenSites = 0;
     }
 
@@ -50,9 +48,6 @@ public class Percolation {
 
         if (row == 0) {
             UF.union(toOneD(row, col), start);
-        }
-        if (row == N - 1) {
-            UF.union(toOneD(row, col), end);
         }
     }
 
@@ -107,7 +102,12 @@ public class Percolation {
      * does the system percolate?
      */
     public boolean percolates() {
-        return UF.connected(start, end);
+        for (int col = 0; col < N; col++) {
+            if (isFull(N - 1, col)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
