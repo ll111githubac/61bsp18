@@ -1,5 +1,7 @@
 package lab11.graphs;
 
+import edu.princeton.cs.algs4.IndexMinPQ;
+
 /**
  *  @author Josh Hug
  */
@@ -8,6 +10,7 @@ public class MazeAStarPath extends MazeExplorer {
     private int t;
     private boolean targetFound = false;
     private Maze maze;
+    private IndexMinPQ<Integer> estimates;
 
     public MazeAStarPath(Maze m, int sourceX, int sourceY, int targetX, int targetY) {
         super(m);
@@ -16,6 +19,7 @@ public class MazeAStarPath extends MazeExplorer {
         t = maze.xyTo1D(targetX, targetY);
         distTo[s] = 0;
         edgeTo[s] = s;
+        estimates = new IndexMinPQ<>(maze.V());
     }
 
     /** Estimate of the distance from v to the target. */
@@ -33,7 +37,25 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Performs an A star search from vertex s. */
     private void astar(int s) {
-        // TODO
+        estimates.insert(s, 0);
+        while (!estimates.isEmpty() && !targetFound) {
+            int v = estimates.delMin();
+            marked[v] = true;
+            announce();
+            if (v == t) {
+                targetFound = true;
+                return;
+            }
+            for (int w : maze.adj(v)) {
+                if (!marked[w]) {
+                    if (!estimates.contains(w)) {
+                        edgeTo[w] = v;
+                        distTo[w] = distTo[v] + 1;
+                        estimates.insert(w, h(w));
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -42,4 +64,5 @@ public class MazeAStarPath extends MazeExplorer {
     }
 
 }
+
 
