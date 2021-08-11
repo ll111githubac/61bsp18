@@ -20,7 +20,9 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Estimate of the distance from v to the target. */
     private int h(int v) {
-        return -1;
+        int x = maze.toX(t) - maze.toX(v);
+        int y = maze.toY(t) - maze.toY(v);
+        return (int) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     /** Finds vertex estimated to be closest to target. */
